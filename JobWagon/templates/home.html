@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Collections</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 20px;
+      background-color: #fff;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 15px;
+    }
+
+    .nav-buttons button {
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: bold;
+      background-color: #333;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .nav-buttons button:hover {
+      background-color: #555;
+    }
+
+    main {
+      text-align: center;
+      padding: 50px;
+    }
+
+    .main-heading {
+      margin-bottom: 5px;
+      font-size: 30px;
+      font-weight: bold;
+    }
+
+    .subtext {
+      font-size: 16px;
+      margin-bottom: 10px;
+      color: #777;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .collection-grid {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      margin-top: 30px;
+    }
+
+    .collection-item {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      overflow: hidden;
+      text-align: center;
+      max-width: 300px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .collection-item img {
+      width: 100%;
+      height: auto;
+    }
+
+    .collection-item .details {
+      padding: 15px;
+    }
+
+    .collection-item h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    .collection-item p {
+      font-size: 14px;
+      color: #777;
+      margin-bottom: 15px;
+    }
+
+    .collection-item a {
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: bold;
+      color: #333;
+      border: 1px solid #333;
+      padding: 10px 15px;
+      border-radius: 5px;
+      transition: all 0.3s;
+    }
+
+    .collection-item a:hover {
+      background-color: #333;
+      color: #fff;
+    }
+     .main-section {
+      text-align: center;
+      margin: 50px 0;
+    }
+
+    .main-section h3 {
+      font-size: 36px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .items-grid {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      margin-top: 30px;
+    }
+
+    .item-card {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      overflow: hidden;
+      text-align: center;
+      max-width: 300px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .item-card img {
+      width: 100%;
+      height: auto;
+    }
+
+    .item-card .details {
+      padding: 15px;
+    }
+
+    .item-card h4 {
+      font-size: 18px;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    .item-card p {
+      font-size: 14px;
+      color: #777;
+      margin-bottom: 15px;
+    }
+
+    .item-card a {
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: bold;
+      color: #333;
+      border: 1px solid #333;
+      padding: 10px 15px;
+      border-radius: 5px;
+      transition: all 0.3s;
+    }
+
+    .item-card a:hover {
+      background-color: #333;
+      color: #fff;
+    }
+    .footer {
+      background: linear-gradient(135deg, #6e8efb, #a777e3);
+      color: white;
+      padding: 20px 10px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .footer h3 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .footer p {
+      font-size: 14px;
+      margin: 10px 0 20px 0;
+    }
+    .footer-links {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 15px;
+    }
+    .footer-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+    .footer-social-icons {
+      display: flex;
+      gap: 15px;
+    }
+    .footer-social-icons a {
+      color: white;
+      font-size: 20px;
+      text-decoration: none;
+      transition: transform 0.3s;
+    }
+    .footer-social-icons a:hover {
+      transform: scale(1.2);
+    }
+    .footer-bottom {
+      font-size: 12px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">JobWagon</div>
+    <div class="nav-buttons">
+   
+   {% if user.is_authenticated %}
+
+    <a href="" target="_blank">
+        <button>Hello, {{ user.username }}</button>
+    </a>
+
+    <a href="view_bookings" target="_blank">
+        <button>Booked Slots</button>
+    </a>
+
+     
+    <a href="logout_page" target="_blank">
+        <button>Logout</button>
+    </a>
+    
+ </div>
+  </header>
+
+  <main>
+    <h1 class="main-heading">Home Service At Your Door Step</h1>
+    <p class="subtext">
+     Book Your Slot Now!
+    </p>
+    <div class="collection-grid">
+      <div class="collection-item">
+        <img src="https://i.ibb.co/LSP88Ph/Picsart-25-01-20-15-36-19-773.jpg" alt="OUTDOOR CLEANING">
+        <div class="details">
+          <h3>₹120/hour</h3>
+          <p></p>
+          <a href="booking">More Details</a>
+        </div>
+      </div>
+      <div class="collection-item">
+        <img src="https://i.ibb.co/Wps01Fg/Picsart-25-01-20-15-44-05-905.jpg" alt="INDOOR CLEANING">
+        <div class="details">
+          <h3>₹115/hour</h3>
+          <p></p>
+          <a href="booking">More Details</a>
+        </div>
+      </div>
+      <div class="collection-item">
+        <img src="https://i.ibb.co/RQmBTJQ/Picsart-25-01-20-15-47-30-765.jpg" alt="GLSS CLEANING">
+        <div class="details">
+          <h3>₹110/hour</h3>
+          <p></p>
+          <a href="booking">More Details</a>
+        </div>
+      </div>
+    </div>
+    <div class="main-section">
+    <h3>Most Booked</h3>
+    <div class="items-grid">
+      <div class="item-card">
+        <img src="https://i.ibb.co/p0mgVtV/IMG-20250120-151446.jpg" alt="Shop for Men">
+        <div class="details">
+          <h4>Cooking Helper</h4>
+          <p>Help with preparing meals and organizing the kitchen.</p>
+          <a href="booking">More Details</a>
+        </div>
+      </div>
+      <div class="item-card">
+        <img src="https://i.ibb.co/jgJd5Mk/IMG-20250120-151834.jpg" alt="Shop for Women">
+        <div class="details">
+          <h4>Watering Plants</h4>
+          <p>Keep your garden or indoor plants healthy and thriving with expert watering and care.</p>
+          <a href="booking">More Details</a>
+        </div>
+      </div>
+      <div class="item-card">
+        <img src="https://i.ibb.co/3rtKdkp/IMG-20250120-230404.jpg" alt="Shop Accessories">
+        <div class="details">
+          <h4>Home Cleaning</h4>
+          <p>Ensure your home stays spotless and inviting with professional cleaning services tailored to your needs.</p>
+          <a href="booking">More Details</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <h3>JobWagon</h3>
+    <p>Home Service At Your Doorstep</p>
+    <div class="footer-links">
+      <a href="#">About Us</a>
+      <a href="#">Services</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">Contact</a>
+    </div>
+    <div class="footer-social-icons">
+      <a href="#" title="Facebook">&#xf09a;</a> <!-- Font Awesome Icon Example -->
+      <a href="#" title="Twitter">&#xf099;</a>
+      <a href="#" title="Instagram">&#xf16d;</a>
+      <a href="#" title="LinkedIn">&#xf08c;</a>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2025 JobWagon. All rights reserved.
+    </div>
+  </div>
+  </main>
+</body>
+</html>
+
+
+
+
+
+      {% else %}
+    <a href="partner" target="_blank">
+        <button>Join JobWagon Partner</button>
+    </a>
+
+    <a href="login_page" target="_blank">
+        <button>Login</button>
+    </a>
+
+    <a href="register_page" target="_blank">
+        <button>Register</button>
+    </a>
+        
+  
+    </div>
+  </header>
+
+  <main>
+    <h1 class="main-heading">Home Service At Your Door Step</h1>
+    <p class="subtext">
+     Book Your Slot Now!
+    </p>
+    <div class="collection-grid">
+      <div class="collection-item">
+        <img src="https://i.ibb.co/LSP88Ph/Picsart-25-01-20-15-36-19-773.jpg" alt="OUTDOOR CLEANING">
+        <div class="details">
+          <h3>₹120/hour</h3>
+          <p></p>
+          <a href="login_page">Book Now</a>
+        </div>
+      </div>
+      <div class="collection-item">
+        <img src="https://i.ibb.co/Wps01Fg/Picsart-25-01-20-15-44-05-905.jpg" alt="INDOOR CLEANING">
+        <div class="details">
+          <h3>₹115/hour</h3>
+          <p></p>
+          <a href="login_page">Book Now</a>
+        </div>
+      </div>
+      <div class="collection-item">
+        <img src="https://i.ibb.co/RQmBTJQ/Picsart-25-01-20-15-47-30-765.jpg" alt="GLSS CLEANING">
+        <div class="details">
+          <h3>₹110/hour</h3>
+          <p></p>
+          <a href="login_page">Book Now</a>
+        </div>
+      </div>
+    </div>
+    <div class="main-section">
+    <h3>Most Booked</h3>
+    <div class="items-grid">
+      <div class="item-card">
+        <img src="https://i.ibb.co/p0mgVtV/IMG-20250120-151446.jpg" alt="Cooking Helper">
+        <div class="details">
+          <h4>Cooking Helper</h4>
+          <p>Help with preparing foods and organizing the kitchen.</p>
+          <a href="login_page">Book Now</a>
+        </div>
+      </div>
+      <div class="item-card">
+        <img src="https://i.ibb.co/jgJd5Mk/IMG-20250120-151834.jpg" alt="Watering Plants">
+        <div class="details">
+          <h4>Watering Plants</h4>
+          <p>Keep your garden or indoor plants healthy and thriving with expert watering and care.</p>
+          <a href="login_page">Book Now</a>
+        </div>
+      </div>
+      <div class="item-card">
+        <img src="https://i.ibb.co/3rtKdkp/IMG-20250120-230404.jpg" alt="Home Cleaning">
+        <div class="details">
+          <h4>Home Cleaning</h4>
+          <p>Ensure your home stays spotless and inviting with professional cleaning services tailored to your needs.</p>
+          <a href="login_page">Book Now</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <h3>JobWagon</h3>
+    <p>Home Service At Your Doorstep</p>
+    <div class="footer-links">
+      <a href="#">About Us</a>
+      <a href="#">Services</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">Contact</a>
+    </div>
+    <div class="footer-social-icons">
+      <a href="#" title="Facebook">&#xf09a;</a> <!-- Font Awesome Icon Example -->
+      <a href="#" title="Twitter">&#xf099;</a>
+      <a href="#" title="Instagram">&#xf16d;</a>
+      <a href="#" title="LinkedIn">&#xf08c;</a>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2025 JobWagon. All rights reserved.
+    </div>
+  </div>
+  {% endif %}
+  </main>
+</body>
+</html>

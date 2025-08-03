@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Purpose Entry</title>
+</head>
+<body>
+    <h1>Add Purpose Entry</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <label for="purpose">Purpose:</label>
+        <select name="purpose" id="purpose" required>
+            <option value="">Select Purpose</option>
+            <option value="Outdoor Cleaning">Outdoor Cleaning</option>
+            <option value="Other">Other</option>
+        </select><br><br>
+
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" required><br><br>
+
+        <label for="time">Time:</label>
+        <input type="time" id="time" name="time" required><br><br>
+
+        <label for="hours">Hours:</label>
+        <input type="number" id="hours" name="hours" min="1" required><br><br>
+
+        <button type="submit">Save</button>
+    </form>
+</body>
+</html>

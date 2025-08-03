@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dynamic Booking Form with Delete Option</title>
+  <style>
+    /* General Reset */
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f8f9fa;
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    /* Container Styling */
+    .form-container {
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 800px;
+    }
+
+    .form-container h2 {
+      text-align: center;
+      font-size: 28px;
+      color: #007bff;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: #333;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group button {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ced4da;
+      border-radius: 5px;
+      background: #ffffff;
+      color: #333;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+    }
+
+    /* Date-Time Container */
+    .date-time-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .date-time-container input,
+    .date-time-container select {
+      flex: 1;
+    }
+
+    .date-time-container button {
+      background: #dc3545;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      flex: 0;
+    }
+
+    .date-time-container button:hover {
+      background: #c82333;
+    }
+
+    /* Summary Section */
+    .summary {
+      margin: 15px 0;
+      text-align: center;
+      font-size: 16px;
+      font-weight: bold;
+      color: #007bff;
+    }
+
+    /* Buttons */
+    .add-button,
+    .book-button {
+      background: #007bff;
+      color: white;
+      border: none;
+      font-size: 16px;
+      padding: 12px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .add-button:hover {
+      background: #0056b3;
+    }
+
+    .book-button {
+      background: #28a745;
+    }
+
+    .book-button:hover {
+      background: #218838;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Booking Form</h2>
+    <form id="bookingForm">
+      <!-- Name -->
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" placeholder="Enter your name" required>
+      </div>
+
+      <!-- Phone -->
+      <div class="form-group">
+        <label for="contact">Contact:</label>
+        <input type="text" id="phone" name="contact" placeholder="Enter your phone number" required>
+      </div>
+
+      <!--location -->
+      <div class="form-group">
+        <label for="location">Location:</label>
+        <input type="text" id="phone" name="location" placeholder="Enter your location" required>
+      </div>
+
+      <!-- Purpose, Date & Time -->
+      <div class="form-group">
+        <label>Purpose, Date, Time, and Hours:</label>
+        <div id="dateTimeContainer"></div>
+        <button type="button" class="add-button" onclick="addDateTime()">+ Add Purpose, Date & Time</button>
+      </div>
+
+      <!-- Summary -->
+      <div class="summary" id="totalHours">Total Hours Selected: 0</div>
+      <div class="summary" id="totalAmount">Total Amount: Rs 0</div>
+
+      <!-- Book Button -->
+      <button type="submit" class="book-button">Book Now</button>
+    </form>
+  </div>
+
+  <script>
+    const dateTimeContainer = document.getElementById('dateTimeContainer');
+    const totalHoursElement = document.getElementById('totalHours');
+    const totalAmountElement = document.getElementById('totalAmount');
+
+    const rates = {
+      "Watering Plants": 85,
+      "Cooking Helper": 95,
+      "Indoor Cleaning": 105,
+      "Outdoor Cleaning": 115,
+      "Glass Cleaning": 105,
+      "Roof Cleaning": 115
+    };
+
+    function addDateTime() {
+      // Create a container for purpose, date, time, and hours
+      const dateTimeDiv = document.createElement('div');
+      dateTimeDiv.className = 'date-time-container';
+
+      // Purpose dropdown
+      const purposeSelect = document.createElement('select');
+      purposeSelect.required = true;
+      purposeSelect.onchange = updateTotal;
+      const purposes = Object.keys(rates);
+      purposeSelect.innerHTML = `<option value="">Select Purpose</option>` + 
+        purposes.map(purpose => `<option value="${purpose}">${purpose}</option>`).join('');
+
+      // Date input
+      const dateInput = document.createElement('input');
+      dateInput.type = 'date';
+      dateInput.required = true;
+
+      // Time input
+      const timeInput = document.createElement('input');
+      timeInput.type = 'time';
+      timeInput.required = true;
+
+      // Hours input
+      const hoursInput = document.createElement('input');
+      hoursInput.type = 'number';
+      hoursInput.placeholder = 'Hours';
+      hoursInput.required = true;
+      hoursInput.min = 1;
+      hoursInput.oninput = updateTotal;
+
+      // Delete button
+      const deleteButton = document.createElement('button');
+      deleteButton.textContent = 'Delete';
+      deleteButton.onclick = () => {
+        dateTimeContainer.removeChild(dateTimeDiv);
+        updateTotal();
+      };
+
+      // Append all inputs to the container
+      dateTimeDiv.appendChild(purposeSelect);
+      dateTimeDiv.appendChild(dateInput);
+      dateTimeDiv.appendChild(timeInput);
+      dateTimeDiv.appendChild(hoursInput);
+      dateTimeDiv.appendChild(deleteButton);
+
+      // Add the container to the form
+      dateTimeContainer.appendChild(dateTimeDiv);
+    }
+
+    function updateTotal() {
+      const rows = document.querySelectorAll('.date-time-container');
+      let totalHours = 0;
+      let totalAmount = 0;
+
+      rows.forEach(row => {
+        const purpose = row.querySelector('select').value;
+        const hours = parseInt(row.querySelector('input[type="number"]').value) || 0;
+        if (purpose && hours > 0) {
+          totalHours += hours;
+          totalAmount += hours * (rates[purpose] || 0);
+        }
+      });
+
+      totalHoursElement.textContent = `Total Hours Selected: ${totalHours}`;
+      totalAmountElement.textContent = `Total Amount: Rs ${totalAmount}`;
+    }
+
+    document.getElementById('bookingForm').addEventListener('submit', (event) => {
+      event.preventDefault();
+      const totalAmount = totalAmountElement.textContent.split("Rs ")[1];
+      if (totalAmount > 0) {
+        alert(`Booking Submitted!\n${totalHoursElement.textContent}\n${totalAmountElement.textContent}`);
+      } else {
+        alert('Please select at least one purpose, date, time, and hour.');
+      }
+    });
+  </script>
+</body>
+</html>

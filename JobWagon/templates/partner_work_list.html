@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partner Works</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        .container {
+            margin: 20px auto;
+            max-width: 1200px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        table th {
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .badge {
+            padding: 5px 10px;
+            border-radius: 5px;
+            color: #fff;
+            font-weight: bold;
+        }
+        .pending {
+            background-color: orange;
+        }
+        .verified {
+            background-color: green;
+        }
+        .completed {
+            background-color: blue;
+        }
+        .cancelled {
+            background-color: red;
+        }
+        button {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .accept {
+            background-color: green;
+            color: #fff;
+        }
+        .reject {
+            background-color: red;
+            color: #fff;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+         .responsive-button {
+      display: inline-block;
+      padding: 15px 30px;
+      font-size: 16px;
+      font-weight: bold;
+      color: white;
+      background:rgb(23, 140, 27);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.3s ease;
+    }
+
+    .responsive-button:hover {
+      background:rgb(39, 201, 47);
+      transform: scale(1.05);
+    }
+
+    .responsive-button:active {
+      transform: scale(0.95);
+    }
+
+    .responsive-button.accepted {
+      background: #2196f3;
+      cursor: default;
+    }
+    .responsive-buttonReject {
+      display: inline-block;
+      padding: 15px 30px;
+      font-size: 16px;
+      font-weight: bold;
+      color: white;
+      background:rgb(197, 12, 12);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.3s ease;
+    }
+
+    .responsive-buttonReject:hover {
+      background:rgb(255, 34, 0);
+      transform: scale(1.05);
+    }
+
+    .responsive-buttonReject:active {
+      transform: scale(0.95);
+    }
+
+    .responsive-buttonReject.accepted {
+      background: #2196f3;
+      cursor: default;
+    }
+    .error {
+            color:rgb(3, 179, 0);
+            font-size: 13px;
+            text-decoration: none;
+            font-weight: bold;
+         }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Available Works</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Location</th>
+            <th>phone</th>
+            <th>Purpose</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Hours</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for work in works %}
+        <tr>
+            <td>{{ work.name }}</td>
+            <td>{{ work.location }}</td>
+            <td>{{ work.phone }}</td>
+            <td>{{ work.purpose }}</td>
+            <td>{{ work.date }}</td>
+            <td>{{ work.time }}</td>
+            <td>{{ work.hours }}</td>
+            <td>
+                <form action="{% url 'update_partner_status' work.id %}" method="post">
+                    {% csrf_token %}
+                    <button 
+                            type="submit" 
+                            class="responsive-button" 
+                            name="action" 
+                            value="accept"
+                            id="actionButton"
+                            >
+                            Accept
+                    </button>
+                     <button 
+                            type="submit" 
+                            class="responsive-buttonReject" 
+                            name="action" 
+                            value="reject"
+                            id="actionButtonReject"
+                            >
+                            Reject
+                    </button>
+                
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+ <div class='error'>
+        {% for message in messages%}
+        <h3>{{message}}</h3>
+        {% endfor %}
+      </div>
+
+        <div class="footer">
+            &copy; {{ year }} JobWagon. All rights reserved.
+        </div>
+    </div>
+     <script>
+    const button = document.getElementById('actionButton');
+
+    button.addEventListener('click', () => {
+      // Change the text and styling after being clicked
+      button.textContent = 'Accepted';
+      button.classList.add('accepted');
+      button.value = 'accepted'; // Update value to 'accepted'
+    });
+    const button = document.getElementById('actionButtonReject');
+
+    button.addEventListener('click', () => {
+      // Change the text and styling after being clicked
+      button.textContent = 'Rejected';
+      button.classList.add('rejected');
+      button.value = 'Rejected'; // Update value to 'accepted'
+    });
+  </script>
+    
+</body>
+</html>
